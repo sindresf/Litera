@@ -54,9 +54,9 @@ class Language
     @name = "Norwegian"
     @vowels = [Vowel.new('a',1), Vowel.new('e',2), Vowel.new('u',3),Vowel.new( 'å',4),Vowel.new( 'ø', 5),Vowel.new('æ',6)]
     @consonants = [Consonant.new('s',1), Consonant.new('n',2), Consonant.new('k',3), Consonant.new('t',4)]
-    @words = [Word.new('kåt','å','kt'),
-      Word.new('snø','ø','sn',1),
-      Word.new('nattå','aå','ntt',2)]
+    @words = [Word.new('kåt','å','kt',1),
+      Word.new('snø','ø','sn',2),
+      Word.new('nattå','aå','ntt',3)]
   end
 
   def make_Maori()

@@ -189,19 +189,19 @@ def RunnerText.send_opt_info(language,type)
   #type = vowel,consonant,word
   case type
   when '-v'
-    quick_print_line("\tvowel stats:")
+    quick_print_line("\tvowel stats:",0.01)
     language.vowels.each do |vowel|
-      quick_print_line("\t\t#{vowel.name}:   r.#{vowel.rarity}, p.#{vowel.pronunciation}, c.#{vowel.memory_cost}")
+      quick_print_line("\t\t#{vowel.name}:   r.#{vowel.rarity}, p.#{vowel.pronunciation}, c.#{vowel.memory_cost}",0.01,0.1)
     end
   when '-c'
-    quick_print_line("\tconsonant stats:")
+    quick_print_line("\tconsonant stats:",0.01)
     language.consonants.each do |consonant|
-      quick_print_line("\t\t#{consonant.name}:   r.#{consonant.rarity}, p.#{consonant.pronunciation}, c.#{consonant.memory_cost}")
+      quick_print_line("\t\t#{consonant.name}:   r.#{consonant.rarity}, p.#{consonant.pronunciation}, c.#{consonant.memory_cost}",0.01,0.1)
     end
   when '-w'
-    quick_print_line("\tword stats")
+    quick_print_line("\tword stats",0.01)
     language.words.each do |word|
-      quick_print_line("\t\t#{word.spelling}:   r.#{word.rarity}, p.#{word.pronunciation}, c.#{word.memory_cost}")
+      quick_print_line("\t\t#{word.spelling}:   r.#{word.rarity}, p.#{word.pronunciation}, c.#{word.memory_cost}",0.01,0.1)
     end
   end
 end

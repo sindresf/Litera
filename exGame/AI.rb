@@ -16,4 +16,4 @@ def class_test()
   puts "testing...AI"
 end
 
-class_test
+#class_test

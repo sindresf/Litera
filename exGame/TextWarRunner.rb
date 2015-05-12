@@ -146,7 +146,7 @@ def run_game(player,ai)
   #if lost
   RunnerText.lost
 
-  #all done, wrapp it up
+  #all done, wrap it up
   RunnerText.say_goodbye('done')
 end
 
