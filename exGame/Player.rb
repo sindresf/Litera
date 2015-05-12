@@ -1,15 +1,16 @@
 require_relative('literate')
+require_relative('language')
 
 class Player < Literate
   def set(attribute, value)
-    case
-    when attribute == 'name'
+    case attribute
+    when 'name'
       @name = value
-    when attribute == 'ego'
+    when 'ego'
       @ego = value
-    when attribute == 'language'
-      @language = value
-    when attribute == 'vocabulary'
+    when 'language'
+      @language =  Language.new(value)
+    when 'vocabulary'
       @vocabulary = value
     end
   end
@@ -19,4 +20,4 @@ def class_test()
   puts "testing...Player"
 end
 
-class_test
+#class_test

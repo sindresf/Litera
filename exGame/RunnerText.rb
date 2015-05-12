@@ -1,4 +1,4 @@
-module IntroText
+module RunnerText
   def self.clear_screen()
     (0..50).each do |i|
       puts " "
@@ -36,7 +36,7 @@ module IntroText
     puts ""
   end
 
-  def IntroText.greeting()
+  def RunnerText.greeting()
     clear_screen
     prompt = ')> '
     quick_print_line( "Ahoy hoy!")
@@ -44,7 +44,7 @@ module IntroText
     quick_print_line("or what is it you might prefer these days?#{prompt}")
   end
 
-  def IntroText.declaration_of_love(player_name,ai_name,random_language)
+  def RunnerText.declaration_of_love(player_name,ai_name,random_language)
     sleep(0.2)
     clear_screen
     prompt = ')> '
@@ -55,20 +55,20 @@ module IntroText
     quick_print_line("\nI come with grave news!",nil,1.2)
     quick_print_line("\nThe evil Miss Communicator, #{ai_name},")
     quick_print_line("is speaking up against our Holy Grammar!",nil,1)
-    quick_print_line("Her #{random_language} is fluent,")
+    quick_print_line("Her #{random_language.name} is fluent,")
     quick_print_line("but we know you can best her with your vast vocabulary")
     quick_print_line("and awesome word flow!#{prompt}")
     nuffin = $stdin.gets
     sleep(0.7)
   end
 
-  def IntroText.ask_for_language(player_name)
+  def RunnerText.ask_for_language(player_name)
     clear_screen
     prompt = ')> '
     quick_print_line("If #{player_name} would tell the good people of Dicshionerry")
-    quick_print_line("what language you will,")
-    quick_print_line("be arguing in,")
-    quick_print_line("so they could all follow along,")
+    quick_print_line("what language you will,",nil,0.03)
+    quick_print_line("be arguing in,",nil,0.03)
+    quick_print_line("so they could all follow along,",nil,0.03)
     quick_print_line("that would be great!",nil,1.2)
     puts" "
     quick_print_line("Yes",0.08,1.4)
@@ -81,11 +81,11 @@ module IntroText
     print prompt
   end
 
-  def IntroText.ask_about_upgrade(player_language,ai_name)
+  def RunnerText.ask_about_upgrade(player_language,ai_name)
     clear_screen
     prompt = ')> '
     quick_print_line("Quite. Indeed!")
-    quick_print_line("#{player_language} won’t only do, it will do more than nicely!",nil,1.5)
+    quick_print_line("#{player_language.name} will not only do, it will do more than nicely!",nil,1.5)
     quick_print_line("It Shall Devastate!",nil,1.2)
     quick_print_line("IT WILL DECIMATE! AND LEAVE #{ai_name} IN RUIN!!",0.08,3)
     quick_print_line("EXTERMINATE!",0.01,1.5)
@@ -117,19 +117,19 @@ module IntroText
     quick_print_line("\t\t\t| \t_____________________\t     |",0.01,0.015)
     quick_print_line("\t\t\t| \t\\/   LITERAL WAR   \\/\t     |",0.01,0.01)
     quick_print_line("\t\t\t|\t*********************\t     |",0.007,0.01)
-    quick_print_line("\t\t\t|\t  -this means war  \t     |",0.005,0)
+    quick_print_line("\t\t\t|\t  - this means war  \t    |",0.005,0)
     quick_print_line("\t\t\t| \t\t\t\t     |",0.003,0)
     quick_print_line("\t\t\t|____________________________________|",0.002,0)
     puts " "
   end
 
-  def IntroText.ready(player_name, player_upgrade, ai_name, random_upgrade)
+  def RunnerText.ready(player_name, player_upgrade, ai_name, random_upgrade)
     sleep(1)
     clear_screen
     sleep(1)
     quick_print_line('Nothing less than what we have come to expect from The Idol,')
     quick_print_line("The Thesaurus, my #{player_name}. ;) ^^",nil)
-    quick_print_line("#{player_upgrade} should work well against #{ai_name} chosen language, #{random_upgrade}.",nil,1.8)
+    quick_print_line("#{player_upgrade} should work well against #{ai_name} chosen upgrade, #{random_upgrade}.",nil,1.8)
     puts " "
     quick_print_line('Hopefully.',0.08,0.7)
     quick_print_line('No doubting our Crossword Creator of course! Oh no, would never.',nil,2)
@@ -156,8 +156,49 @@ module IntroText
   end
 end
 
+def RunnerText.print_player_info(player)
+  quick_print_line("#{player.get('name')}, you have these options:",0.005,0.01)
+  quick_print_line( "\tyour ego: #{player.get('ego')}.",0.005,0.01)
+  quick_print_line( "\tyour vocabulary: #{player.get('vocabulary')}.\n",0.005,0.01)
+  quick_print_line( "\tyou can argue in #{player.get('language').name}, with",0.005,0.01)
+  vowels = []
+  player.get('language').vowels.each do |vowel|
+    vowels.push(vowel.name)
+  end
+  quick_print_line("\t\t vowels: #{vowels},",0.005,0.01)
+  consonants = []
+  player.get('language').consonants.each do |consonant|
+    consonants.push(consonant.name)
+  end
+  quick_print_line("\t\t consonants: #{consonants},",0.005,0.01)
+  words = []
+  player.get('language').words.each do |word|
+    words.push(word.spelling)
+  end
+  quick_print_line("\t\t words: #{words},\n",0.005,0.01)
+  quick_print_line("\t\t~arg.\t~\#arg1,arg2...\n",0.005,0.01)
+  quick_print_line("\tor take a hit to your ego in silence. ~no\n",0.005,0.01)
+  quick_print_line("\tor read the dictionary. ~-read",0.005,0.01)
+  quick_print_line("\t\t this will give you \*+2\* vocabulary, and a new \*vowel/cons/word\*",0.005,0.01)
+  quick_print_line("\n..you can always also quit, any time :)\n\n",0.005,0.01)
+end
+
+def RunnerText.say_goodbye(why)
+  if why == 'done'
+    puts " "
+    puts "KthxBye"
+  elsif why == 'quit'
+    puts "LOL, quitter!"
+    sleep(0.55)
+    puts "\n\nbbye then!"
+  end
+  sleep(1.5)
+  clear_screen
+  exit(0)
+end
+
 def class_test()
-  puts "testing...IntroText"
+  puts "testing...RunnerText"
 end
 
 #class_test

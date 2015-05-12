@@ -7,6 +7,7 @@ class Literate
     @vocabulary = args[2]
     @language = Language.new(args[3])
     @upgrade = []
+    @tier = 1
   end
 
   def add(upgrade)
@@ -14,20 +15,30 @@ class Literate
   end
 
   def get(attribute)
-    case
-    when attribute == 'name'
+    case attribute
+    when 'name'
       return @name
-    when attribute == 'ego'
+    when 'ego'
       return @ego
-    when attribute == 'language'
+    when 'language'
       return @language
-    when attribute == 'vocabulary'
+    when 'vocabulary'
       return @vocabulary
-    when attribute == 'upgrade'
+    when 'upgrade'
       return @upgrade
+    when 'tier'
+      return @tier
     end
   end
 
+  def level_up()
+    @tier += 1
+    broaden_vocabulary(3)
+  end
+
+  def broaden_vocabulary(value = 1)
+    @vocabulary += value
+  end
 end
 
 def class_test()

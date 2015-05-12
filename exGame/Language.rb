@@ -9,11 +9,11 @@ class Language
     @consonants = []
     @words = []
 
-    if language == 'E'
+    if language == 'E' || language == 'e'
       make_English
-    elsif language == 'N'
+    elsif language == 'N'|| language == 'n'
       make_Norwegian
-    elsif language == 'M'
+    elsif language == 'M'|| language == 'm'
       make_Maori
     else
       make_Binary

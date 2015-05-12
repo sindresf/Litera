@@ -1,5 +1,5 @@
 #script for running the game
-require_relative('RunnerText')
+require_relative('runnertext')
 require_relative('ai')
 require_relative('player')
 
@@ -28,39 +28,6 @@ def run_setup(player,ai)
 
   #sets it up for GO TIME
   RunnerText.ready(player.get('name'),player.get('upgrade'),ai.get('name'),ai.get('upgrade'))
-
-end
-
-def print_player_info(player)
-  puts "#{player.get('name')}, you have these options:"
-  puts "\tyour ego: #{player.get('ego')}."
-  puts "\tyour vocabulary: #{player.get('vocabulary')}."
-  puts " "
-  puts "\tyou can argue in #{player.get('language').name}, with"
-  vowels = []
-  player.get('language').vowels.each do |vowel|
-    vowels.push(vowel.name)
-  end
-  puts "\t\t vowels: #{vowels},"
-  consonants = []
-  player.get('language').consonants.each do |consonant|
-    consonants.push(consonant.name)
-  end
-  puts "\t\t consonants: #{consonants},"
-  words = []
-  player.get('language').words.each do |word|
-    words.push(word.spelling)
-  end
-  puts "\t\t words: #{words},"
-  puts ""
-  puts "\t\t~arg.\t~\#arg1,arg2..."
-  puts ""
-  puts "\tor take a hit to your ego in silence. ~no"
-  puts ""
-  puts "\tor read the dictionary. ~-read"
-  puts "\t\t this will give you \*+2\* vocabulary, and a new \*vowel/cons/word\*"
-
-  puts "\n..you can always also quit, any time :)\n\n"
 end
 
 def is_a_sending_opt?(opts,arg)
@@ -86,15 +53,31 @@ def make_player_opt(language)
   return player_opt
 end
 
+def educate(player)
+  player.level_up #not quite so simple
+end
+
+def dish_out_vocals(player,ai)
+  player.broaden_vocabulary
+  ai.broaden_vocabulary
+end
+
+def handle_sends(player_send,ai_send)
+  #if player < ai blabla
+  #if player == ai blabla
+  #if player > ai blabla
+end
+
 def run_game(player,ai)
   prompt = ')> '
   puts "running game"
-  vowel =  ai.calc_next_move(" ")
-  puts "ai decided that '#{vowel}' would do"
+  ai_send =  ai.calc_next_move(" ")
+  puts "ai decided that '#{ai_send}' would do"
   ego_dead = 0
   arg_result = ""
   player_won = false
   player_opt = make_player_opt(player.get('language'))
+  player_send = 0
 
   #THE CORE LOOP!
   while player.get('ego') != ego_dead && ai.get('ego') != ego_dead
@@ -102,21 +85,19 @@ def run_game(player,ai)
     arg = $stdin.gets.chomp
     if is_a_sending_opt?(player_opt,arg)
       arg_result = "You're sending #{arg}!"
-      #handle send (only send variable set)
+      player_send = arg
     else
       case arg
       when "no"
         arg_result = "ok.."
-        #set send variable to nil
       when "-h"
-        print_player_info(player)
+        RunnerText.print_player_info(player)
         next
       when "-read"
         arg_result = "\*learning shit\*\n\t..updating player opts.."
-        #handle education
+        educate(player)
       when "quit"
-        puts "LOL, quitter!"
-        exit(0)
+        RunnerText.say_goodbye('quit')
       else
         #shouldn't ever actually get here
         puts "no cheating!"
@@ -124,16 +105,20 @@ def run_game(player,ai)
       end
     end
     puts arg_result
+    handle_sends(player_send,ai_send)
+
     if false #arg_result -> ai_ego = 0
       player_won = true
-      return
+      break
     elsif false #arg_result -> player_ego = 0
-      return
+      break
     else #new round
       puts "\*ai thinking\*"
       ego_dead += 1
       puts "count : #{ego_dead}"
       arg_result = ""
+      player_send = 0
+      dish_out_vocals(player,ai)
     end
   end
 
@@ -147,12 +132,8 @@ def run_game(player,ai)
   puts "oh, that's too bad...we always believed in you...!"
   sleep(3)
 
-  #both
-  puts " "
-  puts "KthxBye"
-  sleep(2)
-  puts "\n" * 30
-  exit(0)
+  #all done, wrapp it up
+  RunnerText.say_goodbye('done')
 end
 
 def rand_lang(random)
@@ -192,7 +173,8 @@ def run()
   ai_language = rand_lang(ai_rand)
   ai = AI.new(ai_name,ai_ego,ai_vocabulary,ai_language)
   rand_upgrade(ai,ai_rand)
-  #run_setup(player,ai)
+
+  run_setup(player,ai)
 
   run_game(player,ai)
 end
