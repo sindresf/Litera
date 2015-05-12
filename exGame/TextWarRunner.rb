@@ -80,24 +80,43 @@ def is_info_arg(arg)
   return info_args.include?(arg)
 end
 
+def get_send_from_arg(language,arg)
+  language.vowels.each do |vowel|
+    if vowel.name == arg
+      return vowel
+    end
+  end
+  language.consonant do |cons|
+    if cons.name == arg
+      return cons
+    end
+  end
+  language.words.each do |word|
+    if word.spelling == arg
+      return word
+    end
+  end
+  puts "WTF!? SHOULD'VE BEEN A SENDING OPT!"
+end
+
 def run_game(player,ai)
   prompt = ')> '
   puts "running game"
-  ai_send =  ai.calc_next_move(" ")
-  puts "ai decided that '#{ai_send}' would do"
-  ego_dead = 0
+  round = 1
+  ai_send =  ai.calc_next_move(" ",round)
   arg_result = ""
   player_won = false
   player_opt = make_player_opt(player.get('language'))
   player_send = 0
 
   #THE CORE LOOP!
-  while player.get('ego') != ego_dead && ai.get('ego') != ego_dead
+  while player.get('ego') != round && ai.get('ego') != round
+    puts "ai decided that '#{ai_send}' would do"
     print "counter argument?", prompt
     arg = $stdin.gets.chomp
     if is_a_sending_opt?(player_opt,arg) #TODO FUTURE make several sends possible
+      player_send = get_send_from_arg(player.get('language'),arg)
       arg_result = "You're sending #{arg}!"
-      player_send = arg
     elsif is_info_arg(arg)
       RunnerText.send_opt_info(player.get('language'),arg)
       next
@@ -129,11 +148,12 @@ def run_game(player,ai)
       break
     else #new round
       puts "\*ai thinking\*"
-      ego_dead += 1
-      puts "count : #{ego_dead}"
+      round += 1
+      puts "count : #{round}"
       arg_result = ""
-      player_send = 0
       dish_out_vocals(player,ai)
+      ai.calc_next_move(player_send,round)
+      player_send = 0
     end
   end
 

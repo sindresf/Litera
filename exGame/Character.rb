@@ -39,6 +39,10 @@ class Character
   def ratio()
     return @ratio
   end
+  
+  def index()
+    return @index
+  end
 
 end
 

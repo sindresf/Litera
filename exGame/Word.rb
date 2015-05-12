@@ -58,6 +58,10 @@ class Word
   def ratio()
     return @ratio
   end
+  
+  def index()
+    return @index
+  end
 end
 
 def class_test()
