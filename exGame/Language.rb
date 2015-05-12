@@ -73,7 +73,7 @@ class Language
     @name = "Binary"
     @vowels = [Vowel.new('o',1)]
     @consonants = [Consonant.new('l',1)]
-    @words = [Word.new('zz','zz',''),
+    @words = [Word.new('oo','oo',''),
       Word.new('ll','','ll'),
       Word.new('loollo','ooo','lll'),
       Word.new('lolololo','oooo','llll'),
