@@ -3,6 +3,8 @@ class Word
     @spelling = args[0]
     @vowels = args[1].split("") #not actual Vowel vowels
     @consonants = args[2].split("") #not actual Consonants consonants
+    @index = args[3]
+    @index_coefficient = @index*0.25
 
     @length =@spelling.length
     @rarity = calc_attrib('rar')
@@ -13,11 +15,19 @@ class Word
 
   def calc_attrib(what_attrib) #TODO to make this make "game-sense" inverse the scaling here
     if what_attrib == 'rar'
-      return ((@length*(2.7/@vowels.length))*0.9).round(2)
+      if @vowels.length == 0
+        return (@length*2.43 + @index_coefficient).round(2)
+      else
+        return ((@length*(2.7/@vowels.length))*0.9 + @index_coefficient).round(2)
+      end
     elsif what_attrib == 'pro'
-      return ((@length*(2.9/@consonants.length))*0.6).round(2)
+      if @consonants.length == 0
+        return (@length*1.74 + @index_coefficient).round(2)
+      else
+        return ((@length*(2.9/@consonants.length))*0.6 + @index_coefficient).round(2)
+      end
     elsif what_attrib == 'mem'
-      return (1.47*@length).round(2) #TODO this bust be better scalable
+      return (1.47*@length + @index_coefficient).round(2) #TODO this bust be better scalable
     end
   end
 
@@ -52,7 +62,7 @@ end
 
 def class_test()
   puts "testing...Word"
-  test_word = Word.new("test",'e','tst')
+  test_word = Word.new("test",'e','tst',1)
   puts "created word 'test'"
   tw_spelling = test_word.spelling
   puts "you spell the word #{test_word}: #{tw_spelling}"
@@ -68,7 +78,7 @@ def class_test()
   puts "this gives test a ratio of #{tw_ratio}"
   puts " "
   #VOWEL WORD
-  vow_word = Word.new("aeiotes",'aeioe','ts')
+  vow_word = Word.new("aeiotes",'aeioe','ts',1)
   puts "created vowel word 'aeiotes'"
   vw_spelling = vow_word.spelling
   puts "you spell the word #{vow_word}: #{vw_spelling}"
@@ -84,7 +94,7 @@ def class_test()
   puts "this gives aeiotes a ratio of #{vw_ratio}"
   puts " "
   #CONS WORD
-  cons_word = Word.new("trackback",'aa','trckbck')
+  cons_word = Word.new("trackback",'aa','trckbck',2)
   puts "created consonant word 'trackback'"
   cw_spelling = cons_word.spelling
   puts "you spell the word #{cons_word}: #{cw_spelling}"
@@ -100,7 +110,7 @@ def class_test()
   puts "this gives trackback a ratio of #{cw_ratio}"
   puts " "
   #BALANCED WORD
-  bal_word = Word.new("atesitob",'aeio','tstb')
+  bal_word = Word.new("atesitob",'aeio','tstb',4)
   puts "created balanced word 'atesitob'"
   bw_spelling = bal_word.spelling
   puts "you spell the word #{bal_word}: #{bw_spelling}"

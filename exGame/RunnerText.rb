@@ -148,9 +148,9 @@ module RunnerText
     puts " "
     sleep(1.7)
     puts " "
-    sleep(4)
+    sleep(2.5)
     clear_screen
-    sleep(2)
+    sleep(1.5)
     puts 'BEGIN'
     puts " "
   end
@@ -176,11 +176,46 @@ def RunnerText.print_player_info(player)
     words.push(word.spelling)
   end
   quick_print_line("\t\t words: #{words},\n",0.005,0.01)
-  quick_print_line("\t\t~arg.\t~\#arg1,arg2...\n",0.005,0.01)
+  quick_print_line("\t\t~arg.\t~\#arg1,arg2...",0.005,0.01)
+  quick_print_line("\tget info about vowels/consonants/words, ~-v, ~-c, ~w\n",0.005,0.01)
   quick_print_line("\tor take a hit to your ego in silence. ~no\n",0.005,0.01)
   quick_print_line("\tor read the dictionary. ~-read",0.005,0.01)
   quick_print_line("\t\t this will give you \*+2\* vocabulary, and a new \*vowel/cons/word\*",0.005,0.01)
   quick_print_line("\n..you can always also quit, any time :)\n\n",0.005,0.01)
+end
+
+def RunnerText.send_opt_info(language,type)
+
+  #type = vowel,consonant,word
+  case type
+  when '-v'
+    quick_print_line("\tvowel stats:")
+    language.vowels.each do |vowel|
+      quick_print_line("\t\t#{vowel.name}:   r.#{vowel.rarity}, p.#{vowel.pronunciation}, c.#{vowel.memory_cost}")
+    end
+  when '-c'
+    quick_print_line("\tconsonant stats:")
+    language.consonants.each do |consonant|
+      quick_print_line("\t\t#{consonant.name}:   r.#{consonant.rarity}, p.#{consonant.pronunciation}, c.#{consonant.memory_cost}")
+    end
+  when '-w'
+    quick_print_line("\tword stats")
+    language.words.each do |word|
+      quick_print_line("\t\t#{word.spelling}:   r.#{word.rarity}, p.#{word.pronunciation}, c.#{word.memory_cost}")
+    end
+  end
+end
+
+def RunnerText.lost()
+  sleep(1)
+  quick_print_line("oh, that's too bad...we always believed in you...!",0.001,0)
+  sleep(3)
+end
+
+def RunnerText.won()
+  sleep(1)
+  quick_print_line("oh,NICE!! I knew it! never doubted you for a sec! Not a sec!",0.002,0)
+  sleep(3)
 end
 
 def RunnerText.say_goodbye(why)

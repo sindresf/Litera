@@ -46,8 +46,8 @@ class Language
     @name = "English"
     @vowels = [Vowel.new('a',1), Vowel.new('e',2), Vowel.new('u',3)] # 1.91, 1.32, 1.11 PERFECT RATIO
     @consonants = [Consonant.new('t',1), Consonant.new('n',2), Consonant.new('c',3), Consonant.new('p',4), Consonant.new('q',5)]
-    @words =  [Word.new('tea','ea','t'),
-      Word.new('cunt','u','cnt')]
+    @words =  [Word.new('tea','ea','t',1),
+      Word.new('cunt','u','cnt',2)]
   end
 
   def make_Norwegian()
@@ -55,30 +55,30 @@ class Language
     @vowels = [Vowel.new('a',1), Vowel.new('e',2), Vowel.new('u',3),Vowel.new( 'å',4),Vowel.new( 'ø', 5),Vowel.new('æ',6)]
     @consonants = [Consonant.new('s',1), Consonant.new('n',2), Consonant.new('k',3), Consonant.new('t',4)]
     @words = [Word.new('kåt','å','kt'),
-      Word.new('snø','ø','sn'),
-      Word.new('nattå','aå','ntt')]
+      Word.new('snø','ø','sn',1),
+      Word.new('nattå','aå','ntt',2)]
   end
 
   def make_Maori()
     @name = "Maori"
     @vowels = [Vowel.new('a',1), Vowel.new('o',2)]
     @consonants = [Consonant.new('b',1), Consonant.new('l',2), Consonant.new('d',3), Consonant.new( 'm',4), Consonant.new('w',5), Consonant.new('z',6)]
-    @words = [Word.new('ba','a','b'),
-      Word.new('omwo','oo','mw'),
-      Word.new('lazwo','ao','lzw'),
-      Word.new('aowobloa','aoooa','wbl')]
+    @words = [Word.new('ba','a','b',1),
+      Word.new('omwo','oo','mw',2),
+      Word.new('lazwo','ao','lzw',3),
+      Word.new('aowobloa','aoooa','wbl',4)]
   end
 
   def make_Binary()
     @name = "Binary"
     @vowels = [Vowel.new('o',1)]
     @consonants = [Consonant.new('l',1)]
-    @words = [Word.new('oo','oo',''),
-      Word.new('ll','','ll'),
-      Word.new('loollo','ooo','lll'),
-      Word.new('lolololo','oooo','llll'),
-      Word.new('oooool','ooooo','l'),
-      Word.new('l','','l')]
+    @words = [Word.new('oo','oo','',1),
+      Word.new('ll','','ll',2),
+      Word.new('l','','l',3),
+      Word.new('lolololo','oooo','llll',4),
+      Word.new('oooool','ooooo','l',5),
+      Word.new('loollo','ooo','lll',6)]
   end
 
   def vowel(index = 0)

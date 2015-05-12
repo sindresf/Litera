@@ -13,7 +13,14 @@ def run_setup(player,ai)
 
   #asks the player for the language they want
   RunnerText.ask_for_language(player.get('name'))
-  player.set('language',$stdin.gets.chomp)
+  lang = $stdin.gets.chomp
+  langs = "EeNnMm"
+  if langs.include?(lang)
+    player.set('language',lang)
+  else
+    puts "make it binary then!"
+    player.set('language','b')
+  end
 
   #asks the player for the standard upgrade they want
   RunnerText.ask_about_upgrade(player.get('language'),ai.get('name'))
@@ -68,6 +75,11 @@ def handle_sends(player_send,ai_send)
   #if player > ai blabla
 end
 
+def is_info_arg(arg)
+  info_args = "-v-c-w"
+  return info_args.include?(arg)
+end
+
 def run_game(player,ai)
   prompt = ')> '
   puts "running game"
@@ -83,9 +95,12 @@ def run_game(player,ai)
   while player.get('ego') != ego_dead && ai.get('ego') != ego_dead
     print "counter argument?", prompt
     arg = $stdin.gets.chomp
-    if is_a_sending_opt?(player_opt,arg)
+    if is_a_sending_opt?(player_opt,arg) #TODO FUTURE make several sends possible
       arg_result = "You're sending #{arg}!"
       player_send = arg
+    elsif is_info_arg(arg)
+      RunnerText.send_opt_info(player.get('language'),arg)
+      next
     else
       case arg
       when "no"
@@ -126,11 +141,10 @@ def run_game(player,ai)
 
   #if won
   #puts "YEY!!! WE KNEW IT! OF COURSE YOU CONVINCED THE OPPOSER!"
+  #RunnerText.won
 
   #if lost
-  sleep(1)
-  puts "oh, that's too bad...we always believed in you...!"
-  sleep(3)
+  RunnerText.lost
 
   #all done, wrapp it up
   RunnerText.say_goodbye('done')
@@ -174,7 +188,7 @@ def run()
   ai = AI.new(ai_name,ai_ego,ai_vocabulary,ai_language)
   rand_upgrade(ai,ai_rand)
 
-  run_setup(player,ai)
+  #run_setup(player,ai)
 
   run_game(player,ai)
 end
