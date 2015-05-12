@@ -63,18 +63,13 @@ def print_player_info(player)
   puts "\n..you can always also quit, any time :)\n\n"
 end
 
-def is_a_player_opt(opts,arg)
-  puts "the opts: #{opts}"
+def is_a_sending_opt?(opts,arg)
   opts.each do |opt|
-    print "  #{opt}"
     if opt.include?(arg)
-      puts "UTTVOAUSVDAVOEGVKAJVFKUEVFUVuyv"
-      return true #FINDS IT, DOES NOT RETURN AND REGISTER PROPERLY!!! ???
+      return true
     end
   end
-
   return false
-
 end
 
 def make_player_opt(language)
@@ -100,31 +95,33 @@ def run_game(player,ai)
   arg_result = ""
   player_won = false
   player_opt = make_player_opt(player.get('language'))
+
   #THE CORE LOOP!
   while player.get('ego') != ego_dead && ai.get('ego') != ego_dead
     print "counter argument?", prompt
     arg = $stdin.gets.chomp
-    puts "the arg: #{arg}"
-    case arg
-    when is_a_player_opt(player_opt,arg)      #TODO these two!
-      puts "IT WAS ACTUALLY A THING"
+    if is_a_sending_opt?(player_opt,arg)
       arg_result = "You're sending #{arg}!"
-    when "no"
-      arg_result = "ok.."
-    when "-h"
-      print_player_info(player)
-      next
-    when "-read"
-      arg_result = "\*learning shit\*\n\t..updating player opts.."
-    when "quit"
-      puts "LOL, quitter!"
-      exit(0)
-    when !is_a_player_opt(player_opt,arg)      #TODO these two!
-      arg_result = "what was that??"
-      puts "CAUGHT A THING!!"
+      #handle send (only send variable set)
     else
-      puts "no cheating!"
-      next
+      case arg
+      when "no"
+        arg_result = "ok.."
+        #set send variable to nil
+      when "-h"
+        print_player_info(player)
+        next
+      when "-read"
+        arg_result = "\*learning shit\*\n\t..updating player opts.."
+        #handle education
+      when "quit"
+        puts "LOL, quitter!"
+        exit(0)
+      else
+        #shouldn't ever actually get here
+        puts "no cheating!"
+        next
+      end
     end
     puts arg_result
     if false #arg_result -> ai_ego = 0
