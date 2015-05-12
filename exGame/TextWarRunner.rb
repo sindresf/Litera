@@ -53,7 +53,7 @@ def print_player_info(player)
   end
   puts "\t\t words: #{words},"
   puts ""
-  puts "\t\t-arg.\t-\#arg1,arg2..."
+  puts "\t\t~arg.\t~\#arg1,arg2..."
   puts ""
   puts "\tor take a hit to your ego in silence. ~no"
   puts ""
@@ -63,7 +63,21 @@ def print_player_info(player)
   puts "\n..you can always also quit, any time :)\n\n"
 end
 
-def is_a_player_opt(language,arg)
+def is_a_player_opt(opts,arg)
+  puts "the opts: #{opts}"
+  opts.each do |opt|
+    print "  #{opt}"
+    if opt.include?(arg)
+      puts "UTTVOAUSVDAVOEGVKAJVFKUEVFUVuyv"
+      return true #FINDS IT, DOES NOT RETURN AND REGISTER PROPERLY!!! ???
+    end
+  end
+
+  return false
+
+end
+
+def make_player_opt(language)
   player_opt = []
   language.vowels.each do |vowel|
     player_opt.push(vowel.name)
@@ -74,11 +88,7 @@ def is_a_player_opt(language,arg)
   language.words.each do |word|
     player_opt.push(word.spelling)
   end
-  if player_opt.include?(arg)
-    return true
-  else
-    return false
-  end
+  return player_opt
 end
 
 def run_game(player,ai)
@@ -89,13 +99,15 @@ def run_game(player,ai)
   ego_dead = 0
   arg_result = ""
   player_won = false
-
+  player_opt = make_player_opt(player.get('language'))
   #THE CORE LOOP!
   while player.get('ego') != ego_dead && ai.get('ego') != ego_dead
     print "counter argument?", prompt
     arg = $stdin.gets.chomp
+    puts "the arg: #{arg}"
     case arg
-    when is_a_player_opt(player.get('language'),arg)      #TODO these two!
+    when is_a_player_opt(player_opt,arg)      #TODO these two!
+      puts "IT WAS ACTUALLY A THING"
       arg_result = "You're sending #{arg}!"
     when "no"
       arg_result = "ok.."
@@ -103,12 +115,13 @@ def run_game(player,ai)
       print_player_info(player)
       next
     when "-read"
-      arg_result = "\*learning shit\*"
+      arg_result = "\*learning shit\*\n\t..updating player opts.."
     when "quit"
       puts "LOL, quitter!"
       exit(0)
-    when !is_a_player_opt(player.get('language'),arg)      #TODO these two!
+    when !is_a_player_opt(player_opt,arg)      #TODO these two!
       arg_result = "what was that??"
+      puts "CAUGHT A THING!!"
     else
       puts "no cheating!"
       next
