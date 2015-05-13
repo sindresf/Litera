@@ -88,6 +88,26 @@ def will_mutually_destruct?(attacker,defender)
   return can_kill?(attacker,defender) && can_kill?(defender,attacker)
 end
 
+def handle_fight(send1,send2)
+  if can_kill_and_survive?(send1,send2) #player kills ai and survives
+    puts "PLAYER WIN"
+    send1.reduce_rarity_by(send2.pronunciation)
+    return 'player'
+  elsif will_mutually_destruct?(send1,send2) #both die
+    puts "DEATH TIE!"
+    return 'none'
+  elsif  can_kill_and_survive?(send2,send1) #player can't kill ai, and dies
+    puts "AI WIN!"
+    send2.reduce_rarity_by(send1.pronunciation)
+    return 'ai'
+  elsif !will_mutually_destruct?(send1,send2) # both survive
+    puts "LIFE TIE!"
+    send1.reduce_rarity_by(send2.pronunciation)
+    send2.reduce_rarity_by(send1.pronunciation)
+    return 'both'
+  end
+end
+
 def handle_sends(player_send,ai_send,last_survivors)
   next_survivors = {
     'player' => [],
@@ -98,21 +118,20 @@ def handle_sends(player_send,ai_send,last_survivors)
   #the sends first has to battle the survivors
 
   puts "send stats:"
-  puts "\tPLAYER ATTACK: atk:#{player_send.pronunciation}, aiHp:#{ai_send.rarity}"
-  puts "\tPLAYER LIFE: pHp:#{player_send.rarity}, aiAtk:#{ai_send.pronunciation}"
-  if can_kill_and_survive?(player_send,ai_send) #player kills ai and survives
-    puts "PLAYER WIN"
+  puts "\tAI     : atk:#{ai_send.pronunciation}, Hp:#{ai_send.rarity}"
+  puts "\tPlayer : atk:#{player_send.pronunciation}, Hp:#{player_send.rarity}"
+  result = handle_fight(player_send,ai_send)
+  case result
+  when 'player'
     next_survivors['player'].push(player_send)
-  elsif will_mutually_destruct?(player_send,ai_send) #both die
-    puts "DEATH TIE!"
-  elsif  can_kill_and_survive?(ai_send,player_send) #player can't kill ai, and dies
-    puts "AI WIN!"
+  when 'ai'
     next_survivors['ai'].push(ai_send)
-  elsif !will_mutually_destruct?(player_send,ai_send) # both survive
-    puts "LIFE TIE!"
+  when 'both'
     next_survivors['player'].push(player_send)
     next_survivors['ai'].push(ai_send)
+  when 'none'
   end
+
   #TODO check survivors for anyone losing a life
   return next_survivors
 end
@@ -161,7 +180,8 @@ def run_game(player,ai)
 
   #THE CORE LOOP!
   while player.get('ego') != round && ai.get('ego') != round
-    puts "\t\t the survivors: #{survivors}"
+    puts "\t\t the player survivors: #{survivors['player']}"
+    puts "\t\t the ai     survivors: #{survivors['ai']}"
     puts "ai decided that '#{ai_send.name}' would do"
     print "counter argument?", prompt
     arg = $stdin.gets.chomp

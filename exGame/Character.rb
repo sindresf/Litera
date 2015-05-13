@@ -39,9 +39,13 @@ class Character
   def ratio()
     return @ratio
   end
-  
+
   def index()
     return @index
+  end
+
+  def reduce_rarity_by(amount)
+    @rarity = (@rarity - amount).round(2)
   end
 
 end

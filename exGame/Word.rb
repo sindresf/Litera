@@ -30,7 +30,7 @@ class Word
       return (1.47*@length + @index_coefficient).round(2) #TODO this bust be better scalable
     end
   end
-  
+
   def name()
     return @spelling
   end
@@ -62,9 +62,13 @@ class Word
   def ratio()
     return @ratio
   end
-  
+
   def index()
     return @index
+  end
+
+  def reduce_rarity_by(amount)
+    @rarity = (@rarity - amount).round(2)
   end
 end
 
