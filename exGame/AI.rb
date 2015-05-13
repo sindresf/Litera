@@ -1,6 +1,7 @@
 require_relative('literate')
 
 class AI < Literate
+  @random = Random.new
   def calc_next_move(player_send,round)
     (0..2).each do |time|
       print '.'
@@ -17,6 +18,31 @@ class AI < Literate
       return @language.word(1)
     else
       return @language.consonant(0)
+    end
+  end
+
+  def AI.rand_lang()
+    nr = @random.rand(3)
+    case nr
+    when 0
+      return 'E'
+    when 1
+      return 'N'
+    when 2
+      return 'M'
+
+    end
+  end
+
+  def AI.rand_upgrade(ai)
+    nr = @random.rand(3)
+    case nr
+    when 0
+      ai.add("bold")
+    when 1
+      ai.add("italic")
+    when 2
+      ai.add("underlined")
     end
   end
 

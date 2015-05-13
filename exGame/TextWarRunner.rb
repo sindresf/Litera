@@ -255,43 +255,19 @@ def run_game(player,ai)
   RunnerText.say_goodbye('done')
 end
 
-def rand_lang(random)
-  ai_lang_nr = random.rand(3)
-  case ai_lang_nr
-  when 0
-    return 'E'
-  when 1
-    return 'N'
-  when 2
-    return 'M'
-
-  end
-end
-
-def rand_upgrade(ai,random)
-  ai_upgrade_nr = random.rand(3)
-  case ai_upgrade_nr
-  when 0
-    ai.add("bold")
-  when 1
-    ai.add("italic")
-  when 2
-    ai.add("underlined")
-  end
-end
-
 def run()
+  #init player values
   player_ego = 7
   player_vocabulary = 9
   player = Player.new(1,player_ego,player_vocabulary,1)
+
+  #init ai values
   ai_name = "Laidee Wlongry-Chpelt"
   ai_ego = 10
   ai_vocabulary = 5
-  ai_language = "E" #choose at random
-  ai_rand = Random.new
-  ai_language = rand_lang(ai_rand)
+  ai_language = AI.rand_lang()
   ai = AI.new(ai_name,ai_ego,ai_vocabulary,ai_language)
-  rand_upgrade(ai,ai_rand)
+  AI.rand_upgrade(ai)
 
   #run_setup(player,ai)
 
