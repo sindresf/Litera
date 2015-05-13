@@ -81,29 +81,47 @@ def handle_fight(send1,send2)
   end
 end
 
+def store_result(player_champ,ai_champ,result,survivors)
+  case result
+  when 'player'
+    survivors['player'].push(player_champ)
+  when 'ai'
+    survivors['ai'].push(ai_champ)
+  when 'both'
+    survivors['player'].push(player_champ)
+    survivors['ai'].push(ai_champ)
+  when 'none'
+  end
+end
+
 def handle_sends(player_send,ai_send,last_survivors)
   next_survivors = {
     'player' => [],
     'ai' => []
   }
 
-  #the survivors go again
-  #the sends first has to battle the survivors
+  #the first sent still surviving on both sides
+  player_champ = player_send
+  ai_champ = ai_send
 
-  puts "send stats:"
-  puts "\tAI     : atk:#{ai_send.pronunciation}, Hp:#{ai_send.rarity}"
-  puts "\tPlayer : atk:#{player_send.pronunciation}, Hp:#{player_send.rarity}"
-  result = handle_fight(player_send,ai_send)
-  case result
-  when 'player'
-    next_survivors['player'].push(player_send)
-  when 'ai'
-    next_survivors['ai'].push(ai_send)
-  when 'both'
-    next_survivors['player'].push(player_send)
-    next_survivors['ai'].push(ai_send)
-  when 'none'
+  puts "survivers from last: #{last_survivors}"
+
+  # if there are survivors on both sides
+  if IF.both_side_survives?(last_survivors)
+    puts "empty survives"
+    player_champ = last_survivors['player'][0]
+    ai_champ = last_survivors['ai'][0]
+    # if only player survived last
+  elsif player_champ != nil #then it's player_send's that's 'champ'
+    player_champ = last_survivors['player'][0]
+    # if only ai survived last
+  elsif ai_champ != nil #then it's ai_send's that's 'champ'
+    ai_champ = last_survivors['ai'][0]
   end
+
+  puts "\t THE FIGHTERS: player:#{player_champ}, ai:#{ai_champ}"
+  result = handle_fight(player_champ, ai_champ)
+  store_result(player_champ, ai_champ, result, next_survivors)
 
   #TODO check survivors for anyone losing a life
   return next_survivors
@@ -195,7 +213,6 @@ def run_game(player,ai)
       end
     end
     if IF.can_afford?(player_send,player.get('vocabulary'))
-      puts "with vocabulary: #{player.get('vocabulary')} you can afford #{player_send.memory_cost}"
       player.pay_for player_send
       arg_result = "You're sending #{arg}!"
     else

@@ -11,16 +11,16 @@ class AI < Literate
     sleep(0.2)
     case player_send.index
     when 1
-      @vocabulary -= @language.vowel(0).memory_cost
+      @vocabulary = (@vocabulary - @language.vowel(0).memory_cost).round(2)
       return @language.vowel(0)
     when 2
-      @vocabulary -= @language.consonant(1).memory_cost
+      @vocabulary = (@vocabulary - @language.consonant(1).memory_cost).round(2)
       return @language.consonant(1)
     when 3
-      @vocabulary -= @language.word(1).memory_cost
+      @vocabulary = (@vocabulary -  @language.word(1).memory_cost).round(2)
       return @language.word(1)
     else
-      @vocabulary -= @language.vowel(0).memory_cost
+      @vocabulary = (@vocabulary -  @language.vowel(0).memory_cost).round(2)
       return @language.consonant(0)
     end
   end

@@ -16,8 +16,7 @@ class Player < Literate
   end
 
   def pay_for(argument)
-    puts "ARGUMENT COST = #{argument.memory_cost}"
-    @vocabulary -= argument.memory_cost
+    @vocabulary = (@vocabulary - argument.memory_cost).round(2)
   end
 end
 
