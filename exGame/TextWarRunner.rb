@@ -38,6 +38,10 @@ def run_setup(player,ai)
 end
 
 def is_a_sending_opt?(opts,arg)
+  if arg == ""
+    puts "returns false on empty"
+    return false
+  end
   opts.each do |opt|
     if opt.include?(arg)
       return true
@@ -69,10 +73,23 @@ def dish_out_vocals(player,ai)
   ai.broaden_vocabulary
 end
 
-def handle_sends(player_send,ai_send)
-  #if player < ai blabla
-  #if player == ai blabla
-  #if player > ai blabla
+def handle_sends(player_send,ai_send,last_survivors)
+  next_survivors = [[],[]] #TODO MAKE HASH FOR PLAYER / AI
+  puts "send stats:"
+  puts "\tPLAYER ATTACK: atk:#{player_send.pronunciation}, aiHp:#{ai_send.rarity}"
+  puts "\tPLAYER LIFE: pHp:#{player_send.rarity}, aiAtk:#{ai_send.pronunciation}"
+  if player_send.pronunciation >= ai_send.rarity && player_send.rarity > ai_send.pronunciation #player kills ai and survives
+    puts "PLAYER WIN"
+    next_survivors.push(player_send)
+  elsif player_send.pronunciation >= ai_send.rarity && player_send.rarity <= ai_send.pronunciation #both die
+    puts "DEATH TIE!"
+  elsif player_send.pronunciation < ai_send.rarity && player_send.rarity <= ai_send.pronunciation #player can't kill ai, and dies
+    puts "AI WIN!"
+    next_survivors.push(ai_send)
+  else # both survive
+    puts "LIFE TIE!"
+    next_survivors.push(player_send,ai_send)
+  end
 end
 
 def is_info_arg(arg)
@@ -100,6 +117,7 @@ def get_send_from_arg(language,arg)
 end
 
 def run_game(player,ai)
+  survivors = [[],[]] #TODO make the hashtable
   prompt = ')> '
   puts "running game"
   round = 1
@@ -111,7 +129,7 @@ def run_game(player,ai)
 
   #THE CORE LOOP!
   while player.get('ego') != round && ai.get('ego') != round
-    puts "ai decided that '#{ai_send}' would do"
+    puts "ai decided that '#{ai_send.name}' would do"
     print "counter argument?", prompt
     arg = $stdin.gets.chomp
     if is_a_sending_opt?(player_opt,arg) #TODO FUTURE make several sends possible
@@ -123,6 +141,7 @@ def run_game(player,ai)
     else
       case arg
       when "no"
+        player_send = " "
         arg_result = "ok.."
       when "-h"
         RunnerText.print_player_info(player)
@@ -139,7 +158,7 @@ def run_game(player,ai)
       end
     end
     puts arg_result
-    handle_sends(player_send,ai_send)
+    survivors = handle_sends(player_send,ai_send,survivors)
 
     if false #arg_result -> ai_ego = 0
       player_won = true
@@ -147,12 +166,11 @@ def run_game(player,ai)
     elsif false #arg_result -> player_ego = 0
       break
     else #new round
-      puts "\*ai thinking\*"
       round += 1
       puts "count : #{round}"
       arg_result = ""
       dish_out_vocals(player,ai)
-      ai.calc_next_move(player_send,round)
+      ai_send = ai.calc_next_move(player_send,round)
       player_send = 0
     end
   end
