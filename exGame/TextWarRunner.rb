@@ -2,6 +2,7 @@
 require_relative('runnertext')
 require_relative('ai')
 require_relative('player')
+require_relative('IF')
 
 def run_setup(player,ai)
   #Says hello, and gets the name the player wants
@@ -37,18 +38,6 @@ def run_setup(player,ai)
   RunnerText.ready(player.get('name'),player.get('upgrade'),ai.get('name'),ai.get('upgrade'))
 end
 
-def is_a_sending_opt?(opts,arg)
-  if arg == ""
-    return false
-  end
-  opts.each do |opt|
-    if opt.include?(arg)
-      return true
-    end
-  end
-  return false
-end
-
 def make_player_opt(language)
   player_opt = []
   language.vowels.each do |vowel|
@@ -72,35 +61,19 @@ def dish_out_vocals(player,ai)
   ai.broaden_vocabulary
 end
 
-def can_kill?(attacker,defender)
-  return attacker.pronunciation >= defender.rarity
-end
-
-def can_survive?(defender,attacker)
-  return defender.rarity > attacker.pronunciation
-end
-
-def can_kill_and_survive?(killer,defender)
-  return can_kill?(killer,defender) && can_survive?(killer,defender)
-end
-
-def will_mutually_destruct?(attacker,defender)
-  return can_kill?(attacker,defender) && can_kill?(defender,attacker)
-end
-
 def handle_fight(send1,send2)
-  if can_kill_and_survive?(send1,send2) #player kills ai and survives
+  if IF.can_kill_and_survive?(send1,send2)
     puts "PLAYER WIN"
     send1.reduce_rarity_by(send2.pronunciation)
     return 'player'
-  elsif will_mutually_destruct?(send1,send2) #both die
+  elsif IF.will_mutually_destruct?(send1,send2)
     puts "DEATH TIE!"
     return 'none'
-  elsif  can_kill_and_survive?(send2,send1) #player can't kill ai, and dies
+  elsif  IF.can_kill_and_survive?(send2,send1)
     puts "AI WIN!"
     send2.reduce_rarity_by(send1.pronunciation)
     return 'ai'
-  elsif !will_mutually_destruct?(send1,send2) # both survive
+  elsif !IF.will_mutually_destruct?(send1,send2) # nobody can kill anything
     puts "LIFE TIE!"
     send1.reduce_rarity_by(send2.pronunciation)
     send2.reduce_rarity_by(send1.pronunciation)
@@ -136,14 +109,6 @@ def handle_sends(player_send,ai_send,last_survivors)
   return next_survivors
 end
 
-def is_info_arg(arg)
-  info_args = "-v-c-w"
-  if arg == ""
-    return false
-  end
-  return info_args.include?(arg)
-end
-
 def get_send_from_arg(language,arg)
   language.vowels.each do |vowel|
     if vowel.name == arg
@@ -174,7 +139,7 @@ def make_send(choice)
 end
 
 def run_game(player,ai)
-  empty_char = Character.new(" ",1,0,0,0)
+  empty_char = Character.new("no",1,0,0,0)
   survivors = {
     'player' => [empty_char],
     'ai' => [empty_char]
@@ -196,10 +161,10 @@ def run_game(player,ai)
     puts "ai decided that '#{ai_send.name}' would do"
     print "counter argument?", prompt
     arg = $stdin.gets.chomp
-    if is_a_sending_opt?(player_opt,arg) #TODO FUTURE make several sends possible
+    if IF.is_a_sending_opt?(player_opt,arg) #TODO FUTURE make several sends possible
       player_send = get_send_from_arg(player.get('language'),arg)
       arg_result = "You're sending #{arg}!"
-    elsif is_info_arg(arg)
+    elsif IF.is_info_arg?(arg)
       RunnerText.send_opt_info(player.get('language'),arg)
       next
     else
@@ -212,6 +177,9 @@ def run_game(player,ai)
         arg_result = "ok.."
       when "-h"
         RunnerText.print_player_info(player)
+        next
+      when '-s'
+        RunnerText.argument_queue(survivors)
         next
       when "-read"
         arg_result = "\*learning shit\*\n\t..updating player opts.."

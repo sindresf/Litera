@@ -175,11 +175,12 @@ def RunnerText.print_player_info(player)
   player.get('language').words.each do |word|
     words.push(word.spelling)
   end
-  quick_print_line("\t\t words: #{words},\n",0.005,0.01)
-  quick_print_line("\t\t~arg.\t~\#arg1,arg2...",0.005,0.01)
-  quick_print_line("\tget info about vowels/consonants/words, ~-v, ~-c, ~w\n",0.005,0.01)
-  quick_print_line("\tor take a hit to your ego in silence. ~no\n",0.005,0.01)
-  quick_print_line("\tor read the dictionary. ~-read",0.005,0.01)
+  quick_print_line("\t\t words: #{words},",0.005,0.01)
+  quick_print_line("\twith:     arg.\t\#arg1,arg2...\n",0.005,0.01)
+  quick_print_line("\tget info about vowels/consonants/words, -v, -c, w",0.005,0.01)
+  quick_print_line("\tget info about current argument queue, -s\n",0.005,0.01)
+  quick_print_line("\tor take a hit to your ego in silence. no\n",0.005,0.01)
+  quick_print_line("\tor read the dictionary. -read",0.005,0.01)
   quick_print_line("\t\t this will give you \*+2\* vocabulary, and a new \*vowel/cons/word\*",0.005,0.01)
   quick_print_line("\n..you can always also quit, any time :)\n\n",0.005,0.01)
 end
@@ -204,6 +205,21 @@ def RunnerText.send_opt_info(language,type)
       quick_print_line("\t\t#{word.spelling}:   r.#{word.rarity}, p.#{word.pronunciation}, c.#{word.memory_cost}",0.01,0.1)
     end
   end
+end
+
+def RunnerText.argument_queue(survivors)
+  puts "\t your arguments:"
+  print "\t    "
+  survivors['player'].each do |argument|
+    print "#{argument.name}, Hp:#{argument.rarity}, atk:#{argument.pronunciation}  |  "
+  end
+  puts ""
+  puts "\t ai arguments:"
+  print "\t    "
+  survivors['ai'].each do |argument|
+    print "#{argument.name}, Hp:#{argument.rarity}, atk:#{argument.pronunciation}  |  "
+  end
+  puts ""
 end
 
 def RunnerText.lost()
