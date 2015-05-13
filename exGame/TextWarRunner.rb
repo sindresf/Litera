@@ -147,20 +147,30 @@ end
 def get_send_from_arg(language,arg)
   language.vowels.each do |vowel|
     if vowel.name == arg
-      return vowel
+      return Vowel.new(vowel.name,vowel.index)
     end
   end
   language.consonant do |cons|
     if cons.name == arg
-      return cons
+      return Consonant.new(cons.name,cons.index)
     end
   end
   language.words.each do |word|
     if word.spelling == arg
-      return word
+      return Word.new(word.spelling,word.vowels,word.consonants,word.index)
     end
   end
   puts "WTF!? SHOULD'VE BEEN A SENDING OPT!"
+end
+
+def make_send(choice)
+  if choice.is_a?(Vowel)
+    return Vowel.new(choice.name,choice.index)
+  elsif choice.is_a?(Consonant)
+    return Consonant.new(choice.name,choice.index)
+  elsif choice.is_a?(Word)
+    return Word.new(choice.spelling,choice.vowels,choice.consonants,choice.index)
+  end
 end
 
 def run_game(player,ai)
@@ -172,7 +182,8 @@ def run_game(player,ai)
   prompt = ')> '
   puts "running game"
   round = 1
-  ai_send =  ai.calc_next_move(empty_char,round)
+  ai_send_choice =  ai.calc_next_move(empty_char,round)
+  ai_send = make_send(ai_send_choice)
   arg_result = ""
   player_won = false
   player_opt = make_player_opt(player.get('language'))
@@ -226,7 +237,7 @@ def run_game(player,ai)
       puts "count : #{round}"
       arg_result = ""
       dish_out_vocals(player,ai)
-      ai_send = ai.calc_next_move(player_send,round)
+      ai_send = make_send(ai.calc_next_move(player_send,round))
       player_send = 0
     end
   end
