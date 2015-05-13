@@ -147,6 +147,7 @@ def run_game(player,ai)
   prompt = ')> '
   puts "running game"
   round = 1
+  puts "ai voc: #{ai.get('vocabulary')}"
   ai_send_choice =  ai.calc_next_move(empty_char,round)
   ai_send = make_send(ai_send_choice)
   arg_result = ""
@@ -156,6 +157,8 @@ def run_game(player,ai)
 
   #THE CORE LOOP!
   while player.get('ego') != round && ai.get('ego') != round
+    puts "ai  voc: #{ai.get('vocabulary')}"
+    puts "pl  voc: #{player.get('vocabulary')}"
     puts "\t\t the player survivors: #{survivors['player']}"
     puts "\t\t the ai     survivors: #{survivors['ai']}"
     puts "ai decided that '#{ai_send.name}' would do"
@@ -163,7 +166,6 @@ def run_game(player,ai)
     arg = $stdin.gets.chomp
     if IF.is_a_sending_opt?(player_opt,arg) #TODO FUTURE make several sends possible
       player_send = get_send_from_arg(player.get('language'),arg)
-      arg_result = "You're sending #{arg}!"
     elsif IF.is_info_arg?(arg)
       RunnerText.send_opt_info(player.get('language'),arg)
       next
@@ -191,6 +193,14 @@ def run_game(player,ai)
         puts "no cheating!"
         next
       end
+    end
+    if IF.can_afford?(player_send,player.get('vocabulary'))
+      puts "with vocabulary: #{player.get('vocabulary')} you can afford #{player_send.memory_cost}"
+      player.pay_for player_send
+      arg_result = "You're sending #{arg}!"
+    else
+      puts "no debt allowed here! choose something you can afford!"
+      next
     end
     puts arg_result
     survivors = handle_sends(player_send,ai_send,survivors)
@@ -226,13 +236,13 @@ end
 def run()
   #init player values
   player_ego = 7
-  player_vocabulary = 9
+  player_vocabulary = 5
   player = Player.new(1,player_ego,player_vocabulary,1)
 
   #init ai values
   ai_name = "Laidee Wlongry-Chpelt"
   ai_ego = 10
-  ai_vocabulary = 5
+  ai_vocabulary = 25
   ai_language = AI.rand_lang()
   ai = AI.new(ai_name,ai_ego,ai_vocabulary,ai_language)
   AI.rand_upgrade(ai)

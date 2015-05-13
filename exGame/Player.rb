@@ -14,6 +14,11 @@ class Player < Literate
       @vocabulary = value
     end
   end
+
+  def pay_for(argument)
+    puts "ARGUMENT COST = #{argument.memory_cost}"
+    @vocabulary -= argument.memory_cost
+  end
 end
 
 def class_test()

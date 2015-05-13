@@ -35,4 +35,8 @@ module IF
     return can_kill?(attacker,defender) && can_kill?(defender,attacker)
   end
 
+  def IF.can_afford?(argument,vocabulary)
+    return vocabulary >= argument.memory_cost
+  end
+
 end
