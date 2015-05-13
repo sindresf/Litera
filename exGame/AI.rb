@@ -4,15 +4,10 @@ class AI < Literate
   def calc_next_move(player_send,round)
     (0..2).each do |time|
       print '.'
-      sleep(0.8)
+      sleep(0.35)
     end
     puts '.'
-    sleep(0.4)
-
-    if player_send == " "
-      puts "blank player side send"
-      return @language.vowel(0)
-    end
+    sleep(0.2)
     case player_send.index
     when 1
       return @language.vowel(0)

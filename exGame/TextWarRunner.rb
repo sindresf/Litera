@@ -39,7 +39,6 @@ end
 
 def is_a_sending_opt?(opts,arg)
   if arg == ""
-    puts "returns false on empty"
     return false
   end
   opts.each do |opt|
@@ -73,27 +72,56 @@ def dish_out_vocals(player,ai)
   ai.broaden_vocabulary
 end
 
+def can_kill?(attacker,defender)
+  return attacker.pronunciation >= defender.rarity
+end
+
+def can_survive?(defender,attacker)
+  return defender.rarity > attacker.pronunciation
+end
+
+def can_kill_and_survive?(killer,defender)
+  return can_kill?(killer,defender) && can_survive?(killer,defender)
+end
+
+def will_mutually_destruct?(attacker,defender)
+  return can_kill?(attacker,defender) && can_kill?(defender,attacker)
+end
+
 def handle_sends(player_send,ai_send,last_survivors)
-  next_survivors = [[],[]] #TODO MAKE HASH FOR PLAYER / AI
+  next_survivors = {
+    'player' => [],
+    'ai' => []
+  }
+
+  #the survivors go again
+  #the sends first has to battle the survivors
+
   puts "send stats:"
   puts "\tPLAYER ATTACK: atk:#{player_send.pronunciation}, aiHp:#{ai_send.rarity}"
   puts "\tPLAYER LIFE: pHp:#{player_send.rarity}, aiAtk:#{ai_send.pronunciation}"
-  if player_send.pronunciation >= ai_send.rarity && player_send.rarity > ai_send.pronunciation #player kills ai and survives
+  if can_kill_and_survive?(player_send,ai_send) #player kills ai and survives
     puts "PLAYER WIN"
-    next_survivors.push(player_send)
-  elsif player_send.pronunciation >= ai_send.rarity && player_send.rarity <= ai_send.pronunciation #both die
+    next_survivors['player'].push(player_send)
+  elsif will_mutually_destruct?(player_send,ai_send) #both die
     puts "DEATH TIE!"
-  elsif player_send.pronunciation < ai_send.rarity && player_send.rarity <= ai_send.pronunciation #player can't kill ai, and dies
+  elsif  can_kill_and_survive?(ai_send,player_send) #player can't kill ai, and dies
     puts "AI WIN!"
-    next_survivors.push(ai_send)
-  else # both survive
+    next_survivors['ai'].push(ai_send)
+  elsif !will_mutually_destruct?(player_send,ai_send) # both survive
     puts "LIFE TIE!"
-    next_survivors.push(player_send,ai_send)
+    next_survivors['player'].push(player_send)
+    next_survivors['ai'].push(ai_send)
   end
+  #TODO check survivors for anyone losing a life
+  return next_survivors
 end
 
 def is_info_arg(arg)
   info_args = "-v-c-w"
+  if arg == ""
+    return false
+  end
   return info_args.include?(arg)
 end
 
@@ -117,11 +145,15 @@ def get_send_from_arg(language,arg)
 end
 
 def run_game(player,ai)
-  survivors = [[],[]] #TODO make the hashtable
+  empty_char = Character.new(" ",1,0,0,0)
+  survivors = {
+    'player' => [empty_char],
+    'ai' => [empty_char]
+  }
   prompt = ')> '
   puts "running game"
   round = 1
-  ai_send =  ai.calc_next_move(" ",round)
+  ai_send =  ai.calc_next_move(empty_char,round)
   arg_result = ""
   player_won = false
   player_opt = make_player_opt(player.get('language'))
@@ -129,6 +161,7 @@ def run_game(player,ai)
 
   #THE CORE LOOP!
   while player.get('ego') != round && ai.get('ego') != round
+    puts "\t\t the survivors: #{survivors}"
     puts "ai decided that '#{ai_send.name}' would do"
     print "counter argument?", prompt
     arg = $stdin.gets.chomp
@@ -140,8 +173,11 @@ def run_game(player,ai)
       next
     else
       case arg
+      when ""
+        player_send = empty_char
+        arg_result = "come on... tryyy"
       when "no"
-        player_send = " "
+        player_send = empty_char
         arg_result = "ok.."
       when "-h"
         RunnerText.print_player_info(player)
