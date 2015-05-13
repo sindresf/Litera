@@ -34,6 +34,12 @@ class Literate
   def level_up()
     @tier += 1
     broaden_vocabulary(3)
+    open_opt
+    
+  end
+  
+  def open_opt() #TODO fix this hold level thing
+    
   end
 
   def broaden_vocabulary(value = 1)
