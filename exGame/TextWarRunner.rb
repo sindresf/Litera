@@ -107,15 +107,14 @@ def handle_sends(player_send,ai_send,last_survivors)
   puts "survivers from last: #{last_survivors}"
 
   # if there are survivors on both sides
-  if IF.both_side_survives?(last_survivors)
-    puts "empty survives"
+  if IF.both_side_survived?(last_survivors)
     player_champ = last_survivors['player'][0]
     ai_champ = last_survivors['ai'][0]
     # if only player survived last
-  elsif player_champ != nil #then it's player_send's that's 'champ'
+  elsif last_survivors['player'][0] != nil #then it's player_send's that's 'champ'
     player_champ = last_survivors['player'][0]
     # if only ai survived last
-  elsif ai_champ != nil #then it's ai_send's that's 'champ'
+  elsif  last_survivors['ai'][0] != nil #then it's ai_send's that's 'champ'
     ai_champ = last_survivors['ai'][0]
   end
 
@@ -159,8 +158,8 @@ end
 def run_game(player,ai)
   empty_char = Character.new("no",1,0,0,0)
   survivors = {
-    'player' => [empty_char],
-    'ai' => [empty_char]
+    'player' => [],
+    'ai' => []
   }
   prompt = ')> '
   puts "running game"
