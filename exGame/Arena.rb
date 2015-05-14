@@ -1,3 +1,5 @@
+require_relative('runnertext')
+
 module Arena
   def Arena.handle_fight(send1, send2)
     if IF.can_kill_and_survive?(send1, send2)
@@ -38,12 +40,23 @@ module Arena
 
   def Arena.handle_sends(player_send, ai_send, last_survivors)
     next_survivors = last_survivors
+    next_survivors.keys.each do |value_list| #TODO fix: remove any no's they're not fighting
+      if value_list.respond_to?('each')
+        value_list.each do |value|
+          puts "value!! #{value.info}"
+          if value.rarity <= 0
+            puts "it is dead"
+            value_list.delete value
+          end
+        end
+      end
+    end
 
     #the first sent still surviving on both sides
     player_champ = player_send
     ai_champ = ai_send
 
-    puts "survivers from last: #{last_survivors}"
+    puts "survivers from last: player:#{RunnerText.hash_print_values(last_survivors['players'])}, ai:#{RunnerText.hash_print_values(last_survivors['ai'])}"
 
     # if there are survivors on both sides
     if IF.both_side_survived? last_survivors
@@ -61,7 +74,7 @@ module Arena
       next_survivors['ai'].push ai_send
     end
 
-    puts "\t THE FIGHTERS: player:#{player_champ}, ai:#{ai_champ}"
+    puts "\t THE FIGHTERS: player: #{player_champ.info}, ai: #{ai_champ.info}"
     result = Arena.handle_fight(player_champ, ai_champ)
     store_result(player_champ, ai_champ, result, next_survivors)
 

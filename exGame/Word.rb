@@ -70,6 +70,10 @@ class Word
   def reduce_rarity_by(amount)
     @rarity = (@rarity - amount).round 2
   end
+
+  def info()
+    return "'#{@spelling}': Hp.#{@rarity} atk.#{@pronunciation}"
+  end
 end
 
 def class_test()

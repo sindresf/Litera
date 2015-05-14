@@ -112,8 +112,8 @@ def run_game(player,ai)
   while player.ego != round && ai.ego != round #TODO make this count life ofc, when fighting works
     puts "ai  voc: #{ai.vocabulary}"
     puts "pl  voc: #{player.vocabulary}"
-    puts "\t\t the player survivors: #{survivors['player']}"
-    puts "\t\t the ai     survivors: #{survivors['ai']}"
+    puts "\t\t the player survivors: #{RunnerText.hash_print_values(survivors['player'])}"
+    puts "\t\t the ai     survivors: #{RunnerText.hash_print_values(survivors['ai'])}"
     puts "ai decided that '#{ai_send.name}' would do"
     print "counter argument?", prompt
     arg = $stdin.gets.chomp

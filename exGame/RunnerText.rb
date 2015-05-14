@@ -205,13 +205,13 @@ def RunnerText.send_opt_info(language, type)
 end
 
 def RunnerText.argument_queue(survivors)
-  puts "\t your arguments:"
+  puts "\t your surviving arguments:"
   print "\t    "
   survivors['player'].each do |argument|
     print "#{argument.name}, Hp:#{argument.rarity}, atk:#{argument.pronunciation}  |  "
   end
   puts ""
-  puts "\t ai arguments:"
+  puts "\t ai surviving arguments:"
   print "\t    "
   survivors['ai'].each do |argument|
     print "#{argument.name}, Hp:#{argument.rarity}, atk:#{argument.pronunciation}  |  "
@@ -243,6 +243,18 @@ def RunnerText.say_goodbye(why)
   sleep 1.5
   clear_screen
   exit 0
+end
+
+def RunnerText.hash_print_values(value_list)
+  print_string = ""
+  if value_list.respond_to?('each')
+    value_list.each do |value|
+      print_string += value.info + "  "
+    end
+  else
+    print_string += "none"
+  end
+  return print_string
 end
 
 def class_test()

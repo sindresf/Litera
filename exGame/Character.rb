@@ -48,6 +48,10 @@ class Character
     @rarity = (@rarity - amount).round 2
   end
 
+  def info()
+    return "'#{@name}': Hp.#{@rarity} atk.#{@pronunciation}"
+  end
+
 end
 
 def class_test()
