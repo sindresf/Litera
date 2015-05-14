@@ -96,8 +96,8 @@ end
 
 def handle_sends(player_send,ai_send,last_survivors)
   next_survivors = {
-    'player' => [],
-    'ai' => []
+    'player' => [],#TODO small survivor storing problem, longterm storing
+    'ai' => [] #it's this
   }
 
   #the first sent still surviving on both sides
@@ -110,12 +110,16 @@ def handle_sends(player_send,ai_send,last_survivors)
   if IF.both_side_survived?(last_survivors)
     player_champ = last_survivors['player'][0]
     ai_champ = last_survivors['ai'][0]
+    next_survivors['player'].push(player_send)
+    next_survivors['ai'].push(ai_send)
     # if only player survived last
-  elsif last_survivors['player'][0] != nil #then it's player_send's that's 'champ'
+  elsif last_survivors['player'][0] != nil #then it's ai_send's that's 'champ'
     player_champ = last_survivors['player'][0]
+    next_survivors['player'].push(player_send)
     # if only ai survived last
-  elsif  last_survivors['ai'][0] != nil #then it's ai_send's that's 'champ'
+  elsif  last_survivors['ai'][0] != nil #then it's player_send's that's 'champ'
     ai_champ = last_survivors['ai'][0]
+    next_survivors['ai'].push(ai_send)
   end
 
   puts "\t THE FIGHTERS: player:#{player_champ}, ai:#{ai_champ}"

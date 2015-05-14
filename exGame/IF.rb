@@ -39,17 +39,11 @@ module IF
     return vocabulary >= argument.memory_cost
   end
 
-  def IF.both_side_survived?(survivors) #TODO this shitt
+  def IF.both_side_survived?(survivors)
     if !survivors['player'].empty?
-      puts "player registered as survived"
       if !survivors['ai'].empty?
-        puts "ai registered as survived"
         return true
-      else
-        puts "no ai survivors"
       end
-    else
-      puts "no player survivors"
     end
     return false
 
