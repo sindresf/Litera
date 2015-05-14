@@ -1,25 +1,25 @@
 module Arena
-  def Arena.handle_fight(send1,send2)
-    if IF.can_kill_and_survive?(send1,send2)
+  def Arena.handle_fight(send1, send2)
+    if IF.can_kill_and_survive?(send1, send2)
       puts "PLAYER WIN"
-      send1.reduce_rarity_by(send2.pronunciation)
+      send1.reduce_rarity_by send2.pronunciation
       return 'player'
-    elsif IF.will_mutually_destruct?(send1,send2)
+    elsif IF.will_mutually_destruct?(send1, send2)
       puts "DEATH TIE!"
       return 'none'
-    elsif  IF.can_kill_and_survive?(send2,send1)
+    elsif  IF.can_kill_and_survive?(send2, send1)
       puts "AI WIN!"
-      send2.reduce_rarity_by(send1.pronunciation)
+      send2.reduce_rarity_by send1.pronunciation
       return 'ai'
-    elsif !IF.will_mutually_destruct?(send1,send2) # nobody can kill anything
+    elsif !IF.will_mutually_destruct?(send1, send2) # nobody can kill anything
       puts "LIFE TIE!"
-      send1.reduce_rarity_by(send2.pronunciation)
-      send2.reduce_rarity_by(send1.pronunciation)
+      send1.reduce_rarity_by send2.pronunciation
+      send2.reduce_rarity_by send1.pronunciation
       return 'both'
     end
   end
 
-  def self.store_result(player_champ,ai_champ,result,survivors)
+  def self.store_result(player_champ, ai_champ, result, survivors)
     case result
     when 'player'
       survivors['player'].push player_champ
@@ -36,7 +36,7 @@ module Arena
     end
   end
 
-  def Arena.handle_sends(player_send,ai_send,last_survivors)
+  def Arena.handle_sends(player_send, ai_send, last_survivors)
     next_survivors = last_survivors
 
     #the first sent still surviving on both sides
@@ -46,7 +46,7 @@ module Arena
     puts "survivers from last: #{last_survivors}"
 
     # if there are survivors on both sides
-    if IF.both_side_survived?(last_survivors)
+    if IF.both_side_survived? last_survivors
       player_champ = last_survivors['player'][0]
       ai_champ = last_survivors['ai'][0]
       next_survivors['player'].push player_send

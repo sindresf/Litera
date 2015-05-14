@@ -1,8 +1,8 @@
 class Word
   def initialize(*args) #word,vowels,consonants
     @spelling = args[0]
-    @vowels = args[1].split("") #not actual Vowel vowels
-    @consonants = args[2].split("") #not actual Consonants consonants
+    @vowels = args[1].split "" #not actual Vowel vowels
+    @consonants = args[2].split "" #not actual Consonants consonants
     @index = args[3]
     @index_coefficient = @index*0.25
 
@@ -10,24 +10,24 @@ class Word
     @rarity = calc_attrib('rar')
     @pronunciation = calc_attrib('pro')
     @memory_cost= calc_attrib('mem')
-    @ratio = (@memory_cost/(@rarity+@pronunciation)).round(2)
+    @ratio = (@memory_cost/(@rarity+@pronunciation)).round 2
   end
 
-  def calc_attrib(what_attrib) #TODO to make this make "game-sense" inverse the scaling here
+  def calc_attrib(what_attrib)
     if what_attrib == 'rar'
       if @vowels.length == 0
-        return (@length*2.43 + @index_coefficient).round(2)
+        return ((@length*2.43 + @index_coefficient).round 2)
       else
-        return ((@length*(2.7/@vowels.length))*0.9 + @index_coefficient).round(2)
+        return (((@length*(2.7/@vowels.length))*0.9 + @index_coefficient).round 2)
       end
     elsif what_attrib == 'pro'
       if @consonants.length == 0
-        return (@length*1.74 + @index_coefficient).round(2)
+        return ((@length*1.74 + @index_coefficient).round 2)
       else
-        return ((@length*(2.9/@consonants.length))*0.6 + @index_coefficient).round(2)
+        return (((@length*(2.9/@consonants.length))*0.6 + @index_coefficient).round 2)
       end
     elsif what_attrib == 'mem'
-      return (1.47*@length + @index_coefficient).round(2) #TODO this bust be better scalable
+      return ((1.47*@length + @index_coefficient).round 2)
     end
   end
 
@@ -40,11 +40,11 @@ class Word
   end
 
   def vowels()
-    return @vowels.join("")
+    return (@vowels.join "")
   end
 
   def consonants()
-    return @consonants.join("")
+    return (@consonants.join "")
   end
 
   def rarity()
@@ -68,13 +68,13 @@ class Word
   end
 
   def reduce_rarity_by(amount)
-    @rarity = (@rarity - amount).round(2)
+    @rarity = (@rarity - amount).round 2
   end
 end
 
 def class_test()
   puts "testing...Word"
-  test_word = Word.new("test",'e','tst',1)
+  test_word = Word.new("test", 'e', 'tst', 1)
   puts "created word 'test'"
   tw_spelling = test_word.spelling
   puts "you spell the word #{test_word}: #{tw_spelling}"
@@ -90,7 +90,7 @@ def class_test()
   puts "this gives test a ratio of #{tw_ratio}"
   puts " "
   #VOWEL WORD
-  vow_word = Word.new("aeiotes",'aeioe','ts',1)
+  vow_word = Word.new("aeiotes", 'aeioe', 'ts', 1)
   puts "created vowel word 'aeiotes'"
   vw_spelling = vow_word.spelling
   puts "you spell the word #{vow_word}: #{vw_spelling}"
@@ -106,7 +106,7 @@ def class_test()
   puts "this gives aeiotes a ratio of #{vw_ratio}"
   puts " "
   #CONS WORD
-  cons_word = Word.new("trackback",'aa','trckbck',2)
+  cons_word = Word.new("trackback", 'aa', 'trckbck', 2)
   puts "created consonant word 'trackback'"
   cw_spelling = cons_word.spelling
   puts "you spell the word #{cons_word}: #{cw_spelling}"
@@ -122,7 +122,7 @@ def class_test()
   puts "this gives trackback a ratio of #{cw_ratio}"
   puts " "
   #BALANCED WORD
-  bal_word = Word.new("atesitob",'aeio','tstb',4)
+  bal_word = Word.new("atesitob", 'aeio', 'tstb', 4)
   puts "created balanced word 'atesitob'"
   bw_spelling = bal_word.spelling
   puts "you spell the word #{bal_word}: #{bw_spelling}"

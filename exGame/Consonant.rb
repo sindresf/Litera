@@ -8,7 +8,7 @@ end
 
 def class_test()
   puts "testing...Consonant"
-  test_consonant = Consonant.new('t',1,0.4,0.65,0.75)
+  test_consonant = Consonant.new('t', 1, 0.4, 0.65, 0.75)
   puts "made a test_consonant: #{test_consonant}"
   tc_name = test_consonant.name
   puts "the consonant's name is: #{tc_name}"

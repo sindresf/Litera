@@ -8,7 +8,7 @@ end
 
 def class_test()
   puts "testing...Vowel"
-  test_vowel = Vowel.new('a',1,0.6,0.6,0.9)
+  test_vowel = Vowel.new('a', 1, 0.6, 0.6, 0.9)
   puts "made a test_vowel: #{test_vowel}"
   tv_name = test_vowel.name
   puts "the vowel's name is: #{tv_name}"

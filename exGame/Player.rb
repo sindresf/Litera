@@ -9,14 +9,14 @@ class Player < Literate
     when 'ego'
       @ego = value
     when 'language'
-      @language =  Language.new(value)
+      @language =  Language.new value
     when 'vocabulary'
       @vocabulary = value
     end
   end
 
   def pay_for(argument)
-    @vocabulary = (@vocabulary - argument.memory_cost).round(2)
+    @vocabulary = (@vocabulary - argument.memory_cost).round 2
   end
 end
 
