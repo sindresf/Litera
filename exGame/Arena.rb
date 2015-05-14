@@ -38,25 +38,35 @@ module Arena
     end
   end
 
-  def Arena.handle_sends(player_send, ai_send, last_survivors)
-    next_survivors = last_survivors
-    next_survivors.keys.each do |value_list| #TODO fix: remove any no's they're not fighting
-      if value_list.respond_to?('each')
-        value_list.each do |value|
-          puts "value!! #{value.info}"
+  def self.remove_the_dead_(hashmap)
+    #TODO must be possible to make this one hashmap.lists thing
+    if hashmap['player'].respond_to?('each')
+      hashmap['player'].each do |value|
+        if value.respond_to?('rarity')
           if value.rarity <= 0
-            puts "it is dead"
-            value_list.delete value
+            hashmap['player'].delete(value)
           end
         end
       end
     end
+    if hashmap['ai'].respond_to?('each')
+      hashmap['ai'].each do |value|
+        if value.respond_to?('rarity')
+          if value.rarity <= 0
+            hashmap['ai'].delete(value)
+          end
+        end
+      end
+    end
+  end
+
+  def Arena.handle_sends(player_send, ai_send, last_survivors)
+    remove_the_dead_(last_survivors)
+    next_survivors = last_survivors
 
     #the first sent still surviving on both sides
     player_champ = player_send
     ai_champ = ai_send
-
-    puts "survivers from last: player:#{RunnerText.hash_print_values(last_survivors['players'])}, ai:#{RunnerText.hash_print_values(last_survivors['ai'])}"
 
     # if there are survivors on both sides
     if IF.both_side_survived? last_survivors

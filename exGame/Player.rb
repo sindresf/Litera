@@ -16,7 +16,8 @@ class Player < Literate
   end
 
   def pay_for(argument)
-    @vocabulary = (@vocabulary - argument.memory_cost).round 2
+    @vocabulary = @vocabulary - argument.memory_cost
+    @vocabulary.round 2
   end
 end
 

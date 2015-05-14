@@ -149,7 +149,6 @@ def run_game(player,ai)
     end
     if IF.can_afford?(player_send, player.vocabulary)
       player.pay_for player_send
-      arg_result = "You're sending #{arg}!"
     else
       puts "no debt allowed here! choose something you can afford!"
       next
@@ -164,7 +163,6 @@ def run_game(player,ai)
       break
     else #new round
       round += 1
-      puts "count : #{round}"
       arg_result = ""
       dish_out_vocals(player, ai)
       ai_send = make_send(ai.calc_next_move(player_send, round))
