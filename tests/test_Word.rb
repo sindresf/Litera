@@ -1,6 +1,7 @@
 require "./lib/Word.rb"
 require "test/unit"
 
+# TODO should make some handling tests
 class TestWord < Test::Unit::TestCase
   def test_Class()
     puts "testing...Word"
