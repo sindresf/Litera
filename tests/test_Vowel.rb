@@ -15,8 +15,6 @@ class TestVowel < Test::Unit::TestCase
   def test_Class()
     puts "testing...Vowel"
     assert_equal('Vowel', 'Vo'+'wel')
-
-    # ((@@index * rar_amount * type_influence).round 2)
   end
 
   def innertest_rarity(vowel, index)
