@@ -1,9 +1,9 @@
 #script for running the game
-require_relative('runnertext')
-require_relative('ai')
-require_relative('player')
-require_relative('if')
-require_relative('arena')
+require_relative('../lib/runnertext')
+require_relative('../lib/ai')
+require_relative('../lib/player')
+require_relative('../lib/if')
+require_relative('../lib/arena')
 
 def run_setup(player,ai)
   #Says hello, and gets the name the player wants
@@ -202,4 +202,6 @@ def run()
   run_game(player, ai)
 end
 
-run
+if __FILE__ == $0
+  run
+end

@@ -53,22 +53,3 @@ class Character
   end
 
 end
-
-def class_test()
-  puts "testing...Character"
-  test_char = Character.new('a', 1, 0.5, 0.4, 0.5)
-  puts "made a test_char: #{test_char}"
-  tc_name = test_char.name
-  puts "the char's name is: #{tc_name}"
-  tc_rarity = test_char.rarity
-  puts "the char's rarity was calc. to: #{tc_rarity}"
-  tc_pronunciation = test_char.pronunciation
-  puts "the char's pronunciation was calc. to: #{tc_pronunciation}"
-  tc_memory_cost = test_char.memory_cost
-  puts "the char's memory_cost was calc. to: #{tc_memory_cost}"
-  tc_ratio = test_char.ratio
-  puts "this gives the char the ratio: #{tc_ratio}"
-  puts " "
-end
-
-#class_test

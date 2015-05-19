@@ -53,9 +53,3 @@ class Literate
     @vocabulary += value
   end
 end
-
-def class_test()
-  puts "testing...Literate"
-end
-
-#class_test

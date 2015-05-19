@@ -20,9 +20,3 @@ class Player < Literate
     @vocabulary.round 2
   end
 end
-
-def class_test()
-  puts "testing...Player"
-end
-
-#class_test

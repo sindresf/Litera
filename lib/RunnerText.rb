@@ -256,9 +256,3 @@ def RunnerText.hash_print_values(value_list)
   end
   return print_string
 end
-
-def class_test()
-  puts "testing...RunnerText"
-end
-
-#class_test

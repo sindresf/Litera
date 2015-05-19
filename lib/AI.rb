@@ -51,9 +51,3 @@ class AI < Literate
   end
 
 end
-
-def class_test()
-  puts "testing...AI"
-end
-
-#class_test
