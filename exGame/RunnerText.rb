@@ -112,7 +112,7 @@ module RunnerText
     quick_print_line("\t\t\t| \t_____________________\t     |", 0.01, 0.015)
     quick_print_line("\t\t\t| \t\\/   LITERAL WAR   \\/\t     |", 0.01, 0.01)
     quick_print_line("\t\t\t|\t*********************\t     |", 0.007, 0.01)
-    quick_print_line("\t\t\t|\t  - this means war  \t    |", 0.005, 0)
+    quick_print_line("\t\t\t|\t  - this means war  \t     |", 0.005, 0)
     quick_print_line("\t\t\t| \t\t\t\t     |",0.003,0)
     quick_print_line("\t\t\t|____________________________________|", 0.002, 0)
     puts " "

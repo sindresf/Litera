@@ -197,7 +197,7 @@ def run()
   ai = AI.new(ai_name, ai_ego, ai_vocabulary, ai_language)
   AI.rand_upgrade ai
 
-  #run_setup(player,ai)
+  run_setup(player,ai)
 
   run_game(player, ai)
 end
