@@ -61,7 +61,6 @@ class TestLanguage < Test::Unit::TestCase
     m_words.each {|word| assert_true((set_word_spelling.include? word.spelling ))}
   end
 
-  # TODO MAKE THIS LIKE THE OTHERS
   def test_binary()
     puts "\ttesting...Binary"
     binary = Language.new('B','b')
