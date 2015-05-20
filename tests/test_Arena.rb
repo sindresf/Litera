@@ -7,4 +7,20 @@ class TestArena < Test::Unit::TestCase
     assert_equal('Arena', 'A'+'r'+'e'+'n'+'a')
   end
 
+  def test_handle_fight()
+    #TODO make sends with known outcome to test
+  end
+
+  def test_handle_sends()
+    #TODO tests the handling, which incorporates everything
+  end
+
+  def test_store_result()
+    # TODO nil tests and 'no' tests
+  end
+
+  def test_remove_the_dead()
+    # TODO make several different dead things in a hashmap
+  end
+
 end

@@ -7,4 +7,8 @@ class TestAI < Test::Unit::TestCase
     assert_equal('AI', 'A'+'I')
   end
 
+  def test_decision_to_DOTHIS()
+    # TODO make situations to input the AI to make decisions about
+  end
+
 end
