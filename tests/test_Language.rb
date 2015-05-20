@@ -4,72 +4,80 @@ require "test/unit"
 class TestLanguage < Test::Unit::TestCase
   def test_Class()
     puts "testing...Language"
-    assert_equal('Language', 'Lang'+'ua' + 'ge')
+    assert_equal('Language', 'Lang' + 'ua' + 'ge')
   end
 
-  # TODO FOLLOW THE FORMER PUTS TO MAKE ASSERTS
   def test_english()
     puts "\ttesting...English"
     english = Language.new('E', 'b')
-    # puts "english created: #{english}"
     e_name = english.name
-    # puts "english is called: #{e_name}"
+    assert_equal('English', e_name)
+    set_vowel_names = 'aeu'
     e_vowels = english.vowels
-    #  puts "english has the vowels: #{e_vowels}"
-    # e_vowels.each { |vow| print "#{vow.name}:#{vow.ratio}, "}
-    #  puts ""
+    e_vowels.each { |vow| assert_true((set_vowel_names.include? vow.name ))}
+
+    set_con_names = 'tncpq'
     e_cons = english.consonants
-    #  puts "english has the cons.: #{e_cons}"
-    #  e_cons.each { |con| print "#{con.name}:#{con.ratio}, "}
-    #  puts ""
+    e_cons.each { |con|  assert_true((set_con_names.include? con.name ))}
+
+    set_word_spelling = 'teacunt'
     e_words = english.words
-    #   puts "english words by (name,ratio):"
-    #  e_words.each {|word| puts "\t#{word.spelling},#{word.ratio}"}
+    e_words.each {|word| assert_true((set_word_spelling.include? word.spelling ))}
   end
 
   def test_norwegian()
     puts "\ttesting...Norwegian"
-    #  puts ""
     norwegian = Language.new('N', 'b')
-    #  puts "norwegian created: #{norwegian}"
     n_name = norwegian.name
-    #  puts "norwegian is called: #{n_name}"
+    assert_equal('Norwegian',n_name)
+    set_vowel_names = 'aeuåøæ'
     n_vowels = norwegian.vowels
-    #   puts "norwegian has the vowels: #{n_vowels}"
-    #   n_vowels.each { |vow| print "#{vow.name}:#{vow.ratio}, "}
-    #   puts ""
+    n_vowels.each { |vow| assert_true((set_vowel_names.include? vow.name ))}
+
+    set_con_names = 'snkt'
     n_cons = norwegian.consonants
-    #  puts "norwegian has the cons.: #{n_cons}"
-    #   n_cons.each { |con| print "#{con.name}:#{con.ratio}, "}
-    #  puts ""
+    n_cons.each { |con|  assert_true((set_con_names.include? con.name ))}
+
+    set_word_spelling = 'kåtsnønattå'
     n_words = norwegian.words
-    #   puts "norwegian words by (name,ratio):"
-    #  n_words.each {|word| puts "\t#{word.spelling},#{word.ratio}"}
+    n_words.each {|word| assert_true((set_word_spelling.include? word.spelling ))}
   end
 
   def test_maori()
     puts "\ttesting...Maori"
-    #  puts ""
     maori = Language.new('M', 'b')
-    #   puts "maori created: #{maori}"
     m_name = maori.name
-    #  puts "maori is called: #{m_name}"
+    assert_equal('Maori',m_name)
+    set_vowel_names = 'ao'
     m_vowels = maori.vowels
-    #  puts "maori has the vowels: #{m_vowels}"
-    #  m_vowels.each { |vow| print "#{vow.name}:#{vow.ratio}, "}
-    #   puts ""
+    m_vowels.each { |vow| assert_true((set_vowel_names.include? vow.name ))}
+
+    set_com_names = 'bldmwz'
     m_cons = maori.consonants
-    #   puts "maori has the cons.: #{m_cons}"
-    #  m_cons.each { |con| print "#{con.name}:#{con.ratio}, "}
-    #   puts ""
+    m_cons.each { |con|  assert_true((set_com_names.include? con.name ))}
+
+    set_word_spelling = 'baomwolazwoaowobloa'
     m_words = maori.words
-    #   puts "maori words by (name,ratio):"
-    #   m_words.each {|word| puts "\t#{word.spelling},#{word.ratio}"}
+    m_words.each {|word| assert_true((set_word_spelling.include? word.spelling ))}
   end
 
   # TODO MAKE THIS LIKE THE OTHERS
   def test_binary()
-    puts "\ttesting...binary"
+    puts "\ttesting...Binary"
+    binary = Language.new('B','b')
+    b_name = binary.name
+    assert_equal('Binary',b_name)
+    set_vowel_names = 'o'
+    b_vowels = binary.vowels
+    b_vowels.each { |vow| assert_true((set_vowel_names.include? vow.name ))}
+
+    set_cob_names = 'l'
+    b_cons = binary.consonants
+    b_cons.each { |con|  assert_true((set_cob_names.include? con.name ))}
+
+    set_word_spelling = 'llllolololoooooolloollo'
+    b_words = binary.words
+    b_words.each {|word| assert_true((set_word_spelling.include? word.spelling ))}
   end
 
 end

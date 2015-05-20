@@ -4,7 +4,7 @@ require "test/unit"
 class TestArena < Test::Unit::TestCase
   def test_class()
     puts "testing...Arena"
-    assert_equal('Arena', 'A'+'r'+'e'+'n'+'a')
+    assert_equal('Arena', 'A' + 'r' + 'e' + 'n' + 'a')
   end
 
   def test_handle_fight()
@@ -21,6 +21,7 @@ class TestArena < Test::Unit::TestCase
 
   def test_remove_the_dead()
     # TODO make several different dead things in a hashmap
+    # TODO START HERE
   end
 
 end

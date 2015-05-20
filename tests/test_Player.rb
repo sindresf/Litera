@@ -6,5 +6,5 @@ class TestPlayer < Test::Unit::TestCase
     puts "testing...Player"
     assert_equal('Player', 'Play'+'er')
   end
-
+  # TODO LITERATE FIRST
 end

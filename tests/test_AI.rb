@@ -4,7 +4,7 @@ require "test/unit"
 class TestAI < Test::Unit::TestCase
   def test_class()
     puts "testing...AI"
-    assert_equal('AI', 'A'+'I')
+    assert_equal('AI', 'A' + 'I')
   end
 
   def test_decision_to_DOTHIS()
