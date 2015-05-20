@@ -9,6 +9,50 @@ class TestWord < Test::Unit::TestCase
 
   end
 
+  def innertest_rarity(word, index)
+    # STEPS OF RARITY TEST
+
+    # test with no vowels
+    rarity_fun = ((@length * 2.43 + @index_coefficient).round 2)
+    rarity_calc = word.calc_attrib 'rar'
+    assert_equal(rarity_fun, rarity_calc)
+    assert_equal(rarity_calc, word.rarity)
+
+    # test with vowels
+    rarity_fun = (((@length * (2.7 / @vowels.length)) * 0.9 + @index_coefficient).round 2)
+    rarity_calc = word.calc_attrib 'rar'
+    assert_equal(rarity_fun, rarity_calc)
+    assert_equal(rarity_calc, word.rarity)
+    return rarity_fun
+  end
+
+  def innertest_pronunciation(word, index)
+    # STEPS OF PRONUNCIATION TEST
+
+    # test with no consonants
+    pronunciation_fun = ((@length * 1.74 + @index_coefficient).round 2)
+    pronunciation_calc = word.calc_attrib 'pro'
+    assert_equal(pronunciation_fun, pronunciation_calc)
+    assert_equal(pronunciation_calc, word.pronunciation)
+
+    # test with consonants
+    pronunciation_fun = (((@length * (2.9 / @consonants.length)) * 0.6 + @index_coefficient).round 2)
+    pronunciation_calc = word.calc_attrib 'pro'
+    assert_equal(pronunciation_fun, pronunciation_calc)
+    assert_equal(pronunciation_calc, word.pronunciation)
+    return pronunciation_fun
+  end
+
+  def innertest_memory_cost(word, index)
+    # STEPS OF MEMORY COST TEST
+    # TODO MAKE TEST CHECK HANDLING
+    mem_fun = ((1.47 * @length + @index_coefficient).round 2)
+    mem_calc = word.calc_attrib 'mem'
+    assert_equal(mem_fun, mem_calc)
+    assert_equal(mem_calc, word.memory_cost)
+    return mem_fun
+  end
+
   def test_Test_word()
     puts "\ttesting...Test-Word"
     test_word = Word.new("test", 'e', 'tst', 1)

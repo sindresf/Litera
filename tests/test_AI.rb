@@ -10,5 +10,6 @@ class TestAI < Test::Unit::TestCase
   def test_decision_to_DOTHIS()
     # TODO make situations to input the AI to make decisions about
   end
+  # TODO LITERATE FIRST
 
 end

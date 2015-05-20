@@ -1,5 +1,5 @@
-require ". / lib / Character.rb"
-require "test / unit"
+require "./lib/Character.rb"
+require "test/unit"
 
 class TestCharacter < Test::Unit::TestCase
   def setup
